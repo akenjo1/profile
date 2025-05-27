@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Cá Nhân</title>
+    <title>Profile Cá Nhân Đẹp Mắt</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -71,6 +71,9 @@
             pointer-events: auto; /* Đảm bảo vẫn click được */
         }
         #modalBankQR { /* Thêm cursor pointer cho QR ngân hàng trong modal */
+            cursor: pointer;
+        }
+        #enlargedSocialQrImage { /* Thêm cursor pointer cho QR MXH phóng to */
             cursor: pointer;
         }
 
@@ -234,8 +237,8 @@
     <div class="container mx-auto p-4 md:p-8 max-w-2xl text-center relative z-10">
         <div class="mb-8">
             <img id="mainAvatar" src="images/avatar.jpg" alt="Ảnh đại diện" class="main-avatar-image no-context-menu w-32 h-32 md:w-40 md:h-40 rounded-full mx-auto border-4 border-violet-500 shadow-xl transform hover:scale-110 transition-transform duration-300">
-            <h1 class="text-3xl md:text-4xl font-bold mt-4 animated-gradient-text">Anh Tuấn</h1>
-            <p class="text-gray-400 text-sm md:text-base">Chúc bạn một ngày vui vẻ</p>
+            <h1 class="text-3xl md:text-4xl font-bold mt-4 animated-gradient-text">Tên Của Bạn</h1>
+            <p class="text-gray-400 text-sm md:text-base">Một dòng mô tả ngắn về bạn ở đây.</p>
         </div>
 
         <div class="mb-10">
@@ -247,7 +250,7 @@
                         <span class="font-medium animated-gradient-text">Facebook</span>
                     </a>
                     <div class="qr-code-social-wrapper">
-                        <img src="images/fb.png" alt="QR Facebook" class="qr-code-social no-context-menu w-16 h-16 md:w-20 md:h-20 rounded-md border border-gray-700 bg-white p-0.5">
+                        <img src="images/fb.png" alt="QR Facebook" class="qr-code-social no-context-menu w-16 h-16 md:w-20 md:h-20 rounded-md border border-gray-700 bg-white p-0.5" data-social-link="https://www.facebook.com/share/16dvvciK3c/">
                         <p class="text-xs text-gray-500 mt-1 italic">Nhấn QR để quét</p>
                     </div>
                 </div>
@@ -257,7 +260,7 @@
                         <span class="font-medium animated-gradient-text">TikTok</span>
                     </a>
                      <div class="qr-code-social-wrapper">
-                        <img src="images/tiktok.jpg" alt="QR TikTok" class="qr-code-social no-context-menu w-16 h-16 md:w-20 md:h-20 rounded-md border border-gray-700 bg-white p-0.5">
+                        <img src="images/tiktok.jpg" alt="QR TikTok" class="qr-code-social no-context-menu w-16 h-16 md:w-20 md:h-20 rounded-md border border-gray-700 bg-white p-0.5" data-social-link="https://www.tiktok.com/@ken_jin0?_t=ZS-8whRY0Ieqca&_r=1">
                         <p class="text-xs text-gray-500 mt-1 italic">Nhấn QR để quét</p>
                     </div>
                 </div>
@@ -268,7 +271,7 @@
                         <span class="font-medium animated-gradient-text">Zalo</span>
                     </a>
                     <div class="qr-code-social-wrapper">
-                        <img src="images/zalo.jpg" alt="QR Zalo" class="qr-code-social no-context-menu w-16 h-16 md:w-20 md:h-20 rounded-md border border-gray-700 bg-white p-0.5">
+                        <img src="images/zalo.jpg" alt="QR Zalo" class="qr-code-social no-context-menu w-16 h-16 md:w-20 md:h-20 rounded-md border border-gray-700 bg-white p-0.5" data-social-link="https://zalo.me/your_zalo_number_or_id">
                         <p class="text-xs text-gray-500 mt-1 italic">Nhấn QR để quét</p>
                     </div>
                 </div>
@@ -278,7 +281,7 @@
                         <span class="font-medium animated-gradient-text">Instagram</span>
                     </a>
                     <div class="qr-code-social-wrapper">
-                        <img src="images/inta.png" alt="QR Instagram" class="qr-code-social no-context-menu w-16 h-16 md:w-20 md:h-20 rounded-md border border-gray-700 bg-white p-0.5">
+                        <img src="images/inta.png" alt="QR Instagram" class="qr-code-social no-context-menu w-16 h-16 md:w-20 md:h-20 rounded-md border border-gray-700 bg-white p-0.5" data-social-link="https://www.instagram.com/_anhtuan_0/profilecard/?igsh=MWRnZW16ODd5NDZ3Nw==">
                         <p class="text-xs text-gray-500 mt-1 italic">Nhấn QR để quét</p>
                     </div>
                 </div>
@@ -302,10 +305,10 @@
             <h2 class="text-2xl md:text-3xl font-semibold mb-6 animated-gradient-text">Dự Án Nổi Bật</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div class="bg-gray-800/80 p-1 rounded-xl animated-image-glow">
-                     <img src="https://placehold.co/600x400/38a169/e2e8f0?text=Dự+án+chưa+có" alt="Dự án chưa có" class="w-full h-48 object-cover rounded-lg no-context-menu">
+                     <img src="https://placehold.co/600x400/38a169/e2e8f0?text=Dự+Án+1" alt="Dự án 1" class="w-full h-48 object-cover rounded-lg no-context-menu">
                 </div>
                 <div class="bg-gray-800/80 p-1 rounded-xl animated-image-glow">
-                    <img src="https://placehold.co/600x400/dd6b20/e2e8f0?text=Dự+án+chưa+có" alt="Dự án chưa có" class="w-full h-48 object-cover rounded-lg no-context-menu">
+                    <img src="https://placehold.co/600x400/dd6b20/e2e8f0?text=Dự+Án+2" alt="Dự án 2" class="w-full h-48 object-cover rounded-lg no-context-menu">
                 </div>
             </div>
         </div>
@@ -345,6 +348,7 @@
             <button id="closeSocialQrModal" class="absolute top-1 right-2 sm:top-2 sm:right-3 text-gray-400 hover:text-white text-3xl leading-none z-10" aria-label="Đóng">&times;</button>
             <h3 id="social-qr-modal-title" class="text-lg font-medium text-indigo-300 mb-2 sr-only">Mã QR Mạng Xã Hội</h3>
             <img id="enlargedSocialQrImage" src="" alt="Mã QR Mạng Xã Hội Phóng To" class="mx-auto rounded-lg bg-white p-1 border-2 border-indigo-400 no-context-menu" style="width: 90vmin; height: 90vmin; object-fit: contain;">
+            <p class="text-xs text-gray-400 mt-2 italic">Nhấn vào QR để chuyển đến ứng dụng</p>
         </div>
     </div>
 
@@ -360,7 +364,8 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // --- Thông tin cấu hình ---
-            const YOUR_MOMO_PHONE_OR_ID = "0384627353"; // <<<<----- THAY SỐ MOMO CỦA BẠN VÀO ĐÂY
+            const YOUR_MOMO_PHONE_OR_ID = "YOUR_MOMO_PHONE_HERE"; // <<<<----- THAY SỐ MOMO CỦA BẠN VÀO ĐÂY
+            let currentSocialLinkForEnlargedQR = ''; // Biến lưu link MXH cho QR đang phóng to
 
             // --- Chống click chuột phải trên các ảnh được đánh dấu ---
             const noContextMenuImages = document.querySelectorAll('.no-context-menu');
@@ -421,21 +426,21 @@
             const copyAccountNumberButton = document.getElementById('copyAccountNumberButton');
             const transferMomoButton = document.getElementById('transferMomoButton');
             const transferMBBankButton = document.getElementById('transferMBBankButton');
-            let currentBankData = null; // Lưu trữ thông tin ngân hàng hiện tại đang mở trong modal
+            let currentBankData = null; 
 
 
             const bankData = {
                 bank1: {
-                    qrUrl: "images/momo.jpg", // Thay bằng link QR Momo của bạn
+                    qrUrl: "images/momo.jpg", 
                     bankName: "Ví Điện Tử Momo", 
-                    accountHolder: "PHAM ANH TUAN", // Thay bằng tên của bạn
-                    accountNumber: "0384627353" // Thay bằng SĐT Momo
+                    accountHolder: "PHAM ANH TUAN", 
+                    accountNumber: "0384627353" 
                 },
                 bank2: {
-                    qrUrl: "images/mb.jpg", // Thay bằng link QR MB Bank của bạn
+                    qrUrl: "images/mb.jpg", 
                     bankName: "MB Bank (Ngân hàng Quân Đội)", 
-                    accountHolder: "PHAM ANH TUAN", // Thay bằng tên của bạn
-                    accountNumber: "060797" // Thay bằng STK MB Bank
+                    accountHolder: "PHAM ANH TUAN", 
+                    accountNumber: "060797" 
                 }
             };
 
@@ -450,13 +455,14 @@
                         document.getElementById('modalAccountHolder').textContent = currentBankData.accountHolder;
                         document.getElementById('modalAccountNumber').textContent = currentBankData.accountNumber;
                         
-                        // Cập nhật logic hiển thị nút chuyển khoản
-                        if (currentBankData.bankName && currentBankData.bankName.toLowerCase().includes("mb bank")) {
-                            if(transferMBBankButton) transferMBBankButton.classList.remove('hidden');
-                            if(transferMomoButton) transferMomoButton.classList.add('hidden');
-                        } else { // Áp dụng cho Momo và các ngân hàng khác không phải MB Bank
-                            if(transferMomoButton) transferMomoButton.classList.remove('hidden');
-                            if(transferMBBankButton) transferMBBankButton.classList.add('hidden');
+                        if (transferMBBankButton && transferMomoButton) {
+                            if (currentBankData.bankName && currentBankData.bankName.toLowerCase().includes("mb bank")) {
+                                transferMBBankButton.classList.remove('hidden');
+                                transferMomoButton.classList.add('hidden');
+                            } else { 
+                                transferMomoButton.classList.remove('hidden');
+                                transferMBBankButton.classList.add('hidden');
+                            }
                         }
                         
                         if(bankModal) {
@@ -509,8 +515,6 @@
 
             if(transferMomoButton) {
                 transferMomoButton.addEventListener('click', function() {
-                    // Luôn sử dụng thông tin từ YOUR_MOMO_PHONE_OR_ID nếu nút Momo được nhấn, 
-                    // trừ khi ngân hàng hiện tại là Momo thì dùng accountNumber của nó.
                     let momoTargetAccount = YOUR_MOMO_PHONE_OR_ID;
                     if (currentBankData && currentBankData.bankName && currentBankData.bankName.toLowerCase().includes("momo") && currentBankData.accountNumber) {
                         momoTargetAccount = currentBankData.accountNumber;
@@ -544,13 +548,25 @@
             socialQrImages.forEach(img => {
                 img.addEventListener('click', function(event) {
                     event.stopPropagation(); 
-                    if(enlargedSocialQrImage) enlargedSocialQrImage.src = this.src;
+                    if(enlargedSocialQrImage) {
+                        enlargedSocialQrImage.src = this.src;
+                        currentSocialLinkForEnlargedQR = this.dataset.socialLink || this.closest('.social-item-container')?.querySelector('a.social-link')?.href || '';
+                    }
                     if(socialQrModal) {
                         socialQrModal.classList.remove('hidden', 'opacity-0', 'visibility-hidden');
                         socialQrModal.classList.add('open');
                     }
                 });
             });
+            
+            if(enlargedSocialQrImage) {
+                enlargedSocialQrImage.addEventListener('click', function() {
+                    if (currentSocialLinkForEnlargedQR) {
+                        window.open(currentSocialLinkForEnlargedQR, '_blank');
+                    }
+                });
+            }
+
 
             function closeSocialQrModalFunc() {
                 if(socialQrModal) {
@@ -561,12 +577,13 @@
                             socialQrModal.classList.add('hidden');
                          }
                     }, 300);
+                    currentSocialLinkForEnlargedQR = ''; 
                 }
             }
 
             if(closeSocialQrModalButton) closeSocialQrModalButton.addEventListener('click', closeSocialQrModalFunc);
             if(socialQrModal) socialQrModal.addEventListener('click', function(event) {
-                if (event.target === socialQrModal) {
+                if (event.target === socialQrModal && event.target !== enlargedSocialQrImage) { 
                     closeSocialQrModalFunc();
                 }
             });
@@ -601,7 +618,7 @@
 
             if(closeAvatarModalButton) closeAvatarModalButton.addEventListener('click', closeAvatarModalFunc);
             if(avatarModal) avatarModal.addEventListener('click', function(event) {
-                if (event.target === avatarModal) {
+                if (event.target === avatarModal && event.target !== enlargedAvatarImage) { 
                     closeAvatarModalFunc();
                 }
             });
