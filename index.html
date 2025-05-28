@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Cá Nhân Đẹp Mắt</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <style>
+        :root {
+            --bg-color-dark: #0c0a18;
+            --text-color-dark: #f3f4f6;
+            --card-bg-dark: #1f2937; 
+            --border-color-dark: rgba(55, 65, 81, 0.5); 
+            --modal-bg-dark: #1f2937; 
+            --primary-accent-dark: #8b5cf6; 
+            --secondary-accent-dark: #6366f1; 
+            
+            --bg-color-light: #f3f4f6; 
+            --text-color-light: #1f2937; 
+            --card-bg-light: #ffffff; 
+            --border-color-light: rgba(209, 213, 219, 0.7); 
+            --modal-bg-light: #ffffff;
+            --primary-accent-light: #6d28d9; 
+            --secondary-accent-light: #4f46e5; 
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color-dark);
+            color: var(--text-color-dark);
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        body.light-mode {
+            background-color: var(--bg-color-light);
+            color: var(--text-color-light);
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--modal-bg-dark); }
+        body.light-mode ::-webkit-scrollbar-track { background: #e5e7eb; }
+        ::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 10px; }
+        body.light-mode ::-webkit-scrollbar-thumb { background: #9ca3af; }
+        ::-webkit-scrollbar-thumb:hover { background: #6b7280; }
+        body.light-mode ::-webkit-scrollbar-thumb:hover { background: #6b7280; }
+
+        #hero-section {
+            padding-top: 4rem; 
+            padding-bottom: 2rem; 
+            position: relative;
+            z-index: 2; 
+        }
+      
+        .content-section { 
+            background-color: var(--card-bg-dark);
+            padding: 1.5rem; 
+            border-radius: 0.75rem; 
+            margin-bottom: 2.5rem; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+            border: 1px solid transparent; 
+            position: relative; 
+            z-index: 2; 
+        }
+        body.light-mode .content-section {
+            background-color: var(--card-bg-light);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .content-section:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            border-color: var(--primary-accent-dark);
+        }
+        body.light-mode .content-section:hover {
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            border-color: var(--primary-accent-light);
+        }
+
+        .social-item-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15); 
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .social-item-container:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.25);
+        }
+
+        .social-link { display: flex; align-items: center; gap: 0.75rem; }
+        .qr-code-social-wrapper { text-align: center; }
+        .qr-code-social { cursor: pointer; transition: transform 0.2s ease-in-out; display: block; margin-left: auto; margin-right: auto; }
+        .qr-code-social:hover { transform: scale(1.1); }
+        .main-avatar-image { cursor: pointer; }
+        .no-context-menu { pointer-events: auto; }
+        #modalBankQR { cursor: pointer; }
+        #enlargedSocialQrImage { cursor: pointer; }
+
+        .bank-logo-container {
+            cursor: pointer;
+            padding: 0.75rem;
+            border-radius: 0.75rem;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .bank-logo-container:hover {
+            background-color: rgba(55, 65, 81, 0.9);
+            transform: scale(1.05);
+        }
+        body.light-mode .bank-logo-container:hover {
+            background-color: rgba(229, 231, 235, 0.9); 
+        }
+        .bank-logo-img { width: 5rem; height: 5rem; object-fit: contain; margin-left: auto; margin-right: auto; margin-bottom: 0.5rem; border-radius: 0.375rem; background-color: white; padding: 0.25rem; }
+        
+        .modal { transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out; z-index: 50; }
+        .modal-content {
+            transition: transform 0.3s ease-in-out, background-color 0.3s ease;
+            background-color: var(--modal-bg-dark);
+        }
+        body.light-mode .modal-content {
+            background-color: var(--modal-bg-light);
+        }
+        .modal.open .modal-content { transform: scale(1) translateY(0); }
+        .modal .modal-content { transform: scale(0.95) translateY(20px); }
+
+        #star-fall-container { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            pointer-events: none; 
+            z-index: 0; 
+            overflow: hidden; 
+        }
+        .star { position: absolute; background-color: white; border-radius: 50%; animation: fall linear infinite, twinkle 1.5s ease-in-out infinite alternate; }
+        @keyframes fall { 
+            0% { transform: translateY(-10vh) scale(1); }
+            100% { transform: translateY(110vh) scale(0.3); } 
+        }
+        @keyframes twinkle { 0% { opacity: 0.3; } 100% { opacity: 1; } }
+
+        .animated-gradient-text { background-image: linear-gradient(90deg, #9333ea, #ec4899, #f59e0b, #10b981, #3b82f6, #9333ea ); background-size: 200% auto; color: transparent; -webkit-background-clip: text; background-clip: text; animation: gradientTextAnimation 5s linear infinite; }
+        .fa-animated-gradient { background-image: linear-gradient( 90deg, #9333ea, #ec4899, #f59e0b, #10b981, #3b82f6, #9333ea ); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; color: transparent !important; animation: gradientTextAnimation 5s linear infinite; }
+        @keyframes gradientTextAnimation { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+
+        .animated-image-glow { border-radius: 0.75rem; animation: rainbowGlowAnimation 6s linear infinite; box-shadow: 0 0 5px rgba(255,255,255,0.3); }
+        @keyframes rainbowGlowAnimation { 0%, 100% { box-shadow: 0 0 10px 2px #ef4444, 0 0 5px #ef4444 inset; } 16% { box-shadow: 0 0 10px 2px #f97316, 0 0 5px #f97316 inset; } 32% { box-shadow: 0 0 10px 2px #eab308, 0 0 5px #eab308 inset; } 48% { box-shadow: 0 0 10px 2px #22c55e, 0 0 5px #22c55e inset; } 64% { box-shadow: 0 0 10px 2px #3b82f6, 0 0 5px #3b82f6 inset; } 80% { box-shadow: 0 0 10px 2px #8b5cf6, 0 0 5px #8b5cf6 inset; } }
+
+        .animated-hue-rotate-svg { animation: hueRotateAnimation 4s linear infinite; }
+        @keyframes hueRotateAnimation { 0% { filter: hue-rotate(0deg) saturate(1.5) brightness(1.1); } 50% { filter: hue-rotate(180deg) saturate(2) brightness(1.2); } 100% { filter: hue-rotate(360deg) saturate(1.5) brightness(1.1); } }
+        
+        .app-transfer-button, .utility-button { display: inline-flex; align-items: center; padding: 0.5rem 1rem; border-radius: 0.5rem; font-weight: 500; transition: background-color 0.3s ease, transform 0.2s ease; margin-top: 0.75rem; margin-left: 0.25rem; margin-right: 0.25rem; }
+        .app-transfer-button:hover, .utility-button:hover { transform: translateY(-2px); }
+        .momo-button { background-color: #a50064; color: white; }
+        .momo-button:hover { background-color: #d00283; }
+        .mbbank-button { background-color: #005baa; color: white; }
+        .mbbank-button:hover { background-color: #0078d4; }
+
+        .action-button-group {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column; 
+            gap: 10px; 
+            z-index: 100;
+            align-items: flex-end; 
+        }
+        .control-button-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px; 
+        }
+        .music-status-text {
+            font-size: 0.75rem; 
+            color: var(--text-color-dark);
+            background-color: rgba(0,0,0,0.5);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            pointer-events: none; 
+        }
+        body.light-mode .music-status-text {
+            color: var(--text-color-light);
+            background-color: rgba(255,255,255,0.7);
+        }
+        .music-status-text.visible {
+            opacity: 1;
+        }
+
+        .control-button {
+            background-color: var(--secondary-accent-dark);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.2rem; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        body.light-mode .control-button {
+            background-color: var(--secondary-accent-light);
+        }
+
+        .share-profile-button { background-color: var(--primary-accent-dark); color: white; padding: 0.5rem 1rem; border-radius: 0.5rem; font-weight: 500; transition: background-color 0.3s ease, transform 0.2s ease; }
+        body.light-mode .share-profile-button { background-color: var(--primary-accent-light); }
+        .share-profile-button:hover { transform: translateY(-2px); }
+        .copy-all-bank-info-button { background-color: #10b981; color: white; }
+        body.light-mode .copy-all-bank-info-button { background-color: #059669; }
+
+        .section-title-icon {
+            margin-right: 0.5rem; 
+            color: var(--primary-accent-dark); 
+            transition: color 0.3s ease;
+        }
+        body.light-mode .section-title-icon {
+            color: var(--primary-accent-light);
+        }
+        .text-muted {
+            color: #9ca3af; 
+        }
+        body.light-mode .text-muted {
+            color: #6b7280; 
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="antialiased">
+
+    <div id="star-fall-container"></div>
+    
+    <audio id="backgroundMusic" loop>
+        <source src="" type="audio/mpeg"> 
+        Trình duyệt của bạn không hỗ trợ thẻ audio.
+    </audio>
+
+    <div class="action-button-group">
+        <div class="control-button-wrapper">
+            <span id="musicStatusText" class="music-status-text"></span>
+            <button id="musicToggle" class="control-button" aria-label="Bật/Tắt nhạc">
+                <i class="fas fa-play"></i> 
+            </button>
+        </div>
+        <button id="themeToggle" class="control-button" aria-label="Chuyển đổi giao diện">
+            <i class="fas fa-sun"></i> 
+        </button>
+    </div>
+
+
+    <div class="container mx-auto p-4 md:p-8 max-w-2xl text-center relative z-10">
+        <section id="hero-section" class="mb-10"> 
+            <div> 
+                <img id="mainAvatar" src="images/avatar.jpg" alt="Ảnh đại diện" class="main-avatar-image no-context-menu w-32 h-32 md:w-40 md:h-40 rounded-full mx-auto border-4 border-violet-500 shadow-xl transform hover:scale-110 transition-transform duration-300">
+                <h1 class="text-3xl md:text-4xl font-bold mt-4 animated-gradient-text">Tên Của Bạn</h1>
+                <p class="text-gray-300 text-sm md:text-base">Một dòng mô tả ngắn về bạn ở đây.</p>
+                <button id="shareProfileButton" class="share-profile-button mt-4 utility-button">
+                    <i class="fas fa-share-alt mr-2"></i>Chia Sẻ Profile
+                </button>
+            </div>
+        </section>
+
+
+        <section class="content-section">
+            <h2 class="text-2xl md:text-3xl font-semibold mb-6 animated-gradient-text">
+                <i class="fas fa-users section-title-icon"></i>Kết Nối Với Tôi
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-1 gap-x-6 gap-y-5">
+                <div class="social-item-container">
+                    <a href="https://www.facebook.com/share/16dvvciK3c/" target="_blank" rel="noopener noreferrer" class="social-link">
+                        <i class="fab fa-facebook-square fa-2x fa-animated-gradient"></i>
+                        <span class="font-medium animated-gradient-text">Facebook</span>
+                    </a>
+                    <div class="qr-code-social-wrapper">
+                        <img src="images/fb.png" alt="QR Facebook" class="qr-code-social no-context-menu w-16 h-16 md:w-20 md:h-20 rounded-md border border-gray-700 bg-white p-0.5" data-social-link="https://www.facebook.com/share/16dvvciK3c/">
+                        <p class="text-xs text-muted mt-1 italic">Nhấn QR để quét</p>
+                    </div>
+                </div>
+                <div class="social-item-container">
+                    <a href="https://www.tiktok.com/@ken_jin0?_t=ZS-8whRY0Ieqca&_r=1" target="_blank" rel="noopener noreferrer" class="social-link">
+                        <i class="fab fa-tiktok fa-2x fa-animated-gradient"></i>
+                        <span class="font-medium animated-gradient-text">TikTok</span>
+                    </a>
+                     <div class="qr-code-social-wrapper">
+                        <img src="images/tiktok.jpg" alt="QR TikTok" class="qr-code-social no-context-menu w-16 h-16 md:w-20 md:h-20 rounded-md border border-gray-700 bg-white p-0.5" data-social-link="https://www.tiktok.com/@ken_jin0?_t=ZS-8whRY0Ieqca&_r=1">
+                        <p class="text-xs text-muted mt-1 italic">Nhấn QR để quét</p>
+                    </div>
+                </div>
+                <div class="social-item-container">
+                    <a href="https://zalo.me/your_zalo_number_or_id" target="_blank" rel="noopener noreferrer" class="social-link group"> <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 animated-hue-rotate-svg" viewBox="0 0 250 250" fill="#2563eb">
+                            <path d="M125 0C56.062 0 0 56.062 0 125s56.062 125 125 125 125-56.062 125-125S193.938 0 125 0zm63.578 165.59c-2.031 2.031-4.625 3.078-7.75 3.078s-5.719-1.047-7.75-3.078l-37.938-37.938-21.062 21.062c-2.781 2.781-6.812 4.203-10.781 4.203s-8-1.422-10.781-4.203l-21.062-21.062-37.938 37.938c-2.031 2.031-4.625 3.078-7.75 3.078s-5.719-1.047-7.75-3.078c-4.297-4.297-4.297-11.25 0-15.547l37.938-37.938-21.062-21.062c-2.781-2.781-4.203-6.812-4.203-10.781s1.422-8 4.203-10.781l21.062-21.062-37.938-37.938c-4.297-4.297-4.297-11.25 0-15.547s11.25-4.297 15.547 0l37.938 37.938 21.062-21.062c2.781-2.781 6.812-4.203 10.781-4.203s8 1.422 10.781 4.203l21.062 21.062 37.938-37.938c4.297-4.297 11.25-4.297 15.547 0s4.297 11.25 0 15.547l-37.938 37.938 21.062 21.062c2.781 2.781 4.203 6.812 4.203 10.781s-1.422 8-4.203 10.781l-21.062 21.062 37.938 37.938c4.297 4.297 4.297 11.25 0 15.547z"/>
+                        </svg>
+                        <span class="font-medium animated-gradient-text">Zalo</span>
+                    </a>
+                    <div class="qr-code-social-wrapper">
+                        <img src="images/zalo.jpg" alt="QR Zalo" class="qr-code-social no-context-menu w-16 h-16 md:w-20 md:h-20 rounded-md border border-gray-700 bg-white p-0.5" data-social-link="https://zalo.me/your_zalo_number_or_id">
+                        <p class="text-xs text-muted mt-1 italic">Nhấn QR để quét</p>
+                    </div>
+                </div>
+                <div class="social-item-container">
+                    <a href="https://www.instagram.com/_anhtuan_0/profilecard/?igsh=MWRnZW16ODd5NDZ3Nw==" target="_blank" rel="noopener noreferrer" class="social-link">
+                        <i class="fab fa-instagram fa-2x fa-animated-gradient"></i>
+                        <span class="font-medium animated-gradient-text">Instagram</span>
+                    </a>
+                    <div class="qr-code-social-wrapper">
+                        <img src="images/inta.png" alt="QR Instagram" class="qr-code-social no-context-menu w-16 h-16 md:w-20 md:h-20 rounded-md border border-gray-700 bg-white p-0.5" data-social-link="https://www.instagram.com/_anhtuan_0/profilecard/?igsh=MWRnZW16ODd5NDZ3Nw==">
+                        <p class="text-xs text-muted mt-1 italic">Nhấn QR để quét</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="text-2xl md:text-3xl font-semibold mb-6 animated-gradient-text">
+                <i class="fas fa-university section-title-icon"></i>Thông Tin Ngân Hàng
+            </h2>
+            <div class="flex flex-wrap justify-center gap-4">
+                <div class="bank-logo-container" data-bank="bank1">
+                    <img src="images/momo.png" alt="Logo Ngân hàng A" class="bank-logo-img">
+                    <p class="text-sm text-gray-300">Momo</p>
+                </div>
+                <div class="bank-logo-container" data-bank="bank2">
+                     <img src="images/mbbank.jpg" alt="Logo MB Bank" class="bank-logo-img">
+                    <p class="text-sm text-gray-300">MB Bank</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="text-2xl md:text-3xl font-semibold mb-6 animated-gradient-text">
+                <i class="fas fa-briefcase section-title-icon"></i>Dự Án Nổi Bật
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div class="bg-gray-800/80 p-1 rounded-xl animated-image-glow">
+                     <img src="https://placehold.co/600x400/38a169/e2e8f0?text=Dự+Án+1" alt="Dự án 1" class="w-full h-48 object-cover rounded-lg no-context-menu">
+                </div>
+                <div class="bg-gray-800/80 p-1 rounded-xl animated-image-glow">
+                    <img src="https://placehold.co/600x400/dd6b20/e2e8f0?text=Dự+Án+2" alt="Dự án 2" class="w-full h-48 object-cover rounded-lg no-context-menu">
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+    <div id="bankModal" class="modal fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center p-4 hidden opacity-0 visibility-hidden" aria-labelledby="bank-modal-title" role="dialog" aria-modal="true">
+        <div class="modal-content p-2 sm:p-3 rounded-xl shadow-2xl w-auto max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl relative text-center">
+            <button id="closeBankModal" class="absolute top-1 right-2 sm:top-2 sm:right-3 text-gray-400 hover:text-white text-3xl leading-none z-10" aria-label="Đóng">&times;</button>
+            <div id="bankModalContentArea" class="text-center p-4">
+                <img id="modalBankQR" src="" alt="QR Ngân hàng" class="mx-auto mb-2 rounded-lg border-2 border-indigo-500 bg-white p-1 no-context-menu" style="width: 90vmin; height: 90vmin; object-fit: contain;">
+                <p class="text-xs text-muted mb-3 italic">Nhấn vào QR để sao chép STK</p>
+                <h3 id="modalBankName" class="text-lg sm:text-xl font-semibold mb-1 text-indigo-300 animated-gradient-text" aria-label="bank-modal-title"></h3>
+                <p class="text-sm text-gray-300">Chủ tài khoản: <strong id="modalAccountHolder" class="font-medium text-gray-100"></strong></p>
+                <div class="flex items-center justify-center my-2">
+                    <p class="text-sm text-gray-300">Số tài khoản: <strong id="modalAccountNumber" class="font-medium text-gray-100"></strong></p>
+                    <button id="copyAccountNumberButton" title="Sao chép số tài khoản" class="ml-2 text-indigo-400 hover:text-indigo-300 transition-colors utility-button">
+                        <i class="far fa-copy"></i>
+                    </button>
+                </div>
+                <button id="copyAllBankInfoButton" class="utility-button copy-all-bank-info-button mt-1">
+                    <i class="fas fa-clipboard-list mr-2"></i>Sao Chép Tất Cả TT Ngân Hàng
+                </button>
+                <p id="copyMessage" class="text-green-400 text-xs mt-1 mb-3 h-4"></p>
+
+                <div id="appTransferButtonsContainer" class="mt-4">
+                    <button id="transferMomoButton" class="app-transfer-button momo-button">
+                        <i class="fas fa-wallet mr-2"></i>Chuyển qua Momo
+                    </button>
+                    <button id="transferMBBankButton" class="app-transfer-button mbbank-button hidden">
+                        <i class="fas fa-university mr-2"></i>Chuyển qua App MB Bank
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="socialQrModal" class="modal fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 hidden opacity-0 visibility-hidden" aria-labelledby="social-qr-modal-title" role="dialog" aria-modal="true">
+        <div class="modal-content p-2 sm:p-3 rounded-xl shadow-2xl w-auto max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl relative text-center">
+            <button id="closeSocialQrModal" class="absolute top-1 right-2 sm:top-2 sm:right-3 text-gray-400 hover:text-white text-3xl leading-none z-10" aria-label="Đóng">&times;</button>
+            <h3 id="social-qr-modal-title" class="text-lg font-medium text-indigo-300 mb-2 sr-only">Mã QR Mạng Xã Hội</h3>
+            <img id="enlargedSocialQrImage" src="" alt="Mã QR Mạng Xã Hội Phóng To" class="mx-auto rounded-lg bg-white p-1 border-2 border-indigo-400 no-context-menu" style="width: 90vmin; height: 90vmin; object-fit: contain;">
+            <p class="text-xs text-muted mt-2 italic">Nhấn vào QR để chuyển đến ứng dụng</p>
+        </div>
+    </div>
+
+    <div id="avatarModal" class="modal fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 hidden opacity-0 visibility-hidden" aria-labelledby="avatar-modal-title" role="dialog" aria-modal="true">
+        <div class="modal-content p-2 rounded-xl shadow-2xl w-auto max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl relative text-center">
+            <button id="closeAvatarModal" class="absolute top-1 right-2 text-gray-300 hover:text-white text-3xl leading-none z-10" aria-label="Đóng">&times;</button>
+            <h3 id="avatar-modal-title" class="sr-only">Ảnh Đại Diện Phóng To</h3>
+            <img id="enlargedAvatarImage" src="" alt="Ảnh Đại Diện Phóng To" class="mx-auto rounded-lg no-context-menu" style="width: 70vmin; height: 70vmin; object-fit: cover; border: 3px solid #8b5cf6;">
+        </div>
+    </div>
+
+    <div id="toastNotification" class="fixed bottom-5 right-5 bg-green-500 text-white py-2 px-4 rounded-lg shadow-md opacity-0 transition-opacity duration-300 z-[60]">
+        Đã sao chép!
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- DOM Element Caching ---
+            const body = document.body;
+            const themeToggleButton = document.getElementById('themeToggle');
+            const themeIcon = themeToggleButton ? themeToggleButton.querySelector('i') : null;
+            
+            const musicToggleButton = document.getElementById('musicToggle');
+            const backgroundMusic = document.getElementById('backgroundMusic');
+            const musicIcon = musicToggleButton ? musicToggleButton.querySelector('i') : null;
+            const musicStatusText = document.getElementById('musicStatusText');
+            
+            const toast = document.getElementById('toastNotification');
+            const starContainer = document.getElementById('star-fall-container');
+            
+            const bankModal = document.getElementById('bankModal');
+            const closeBankModalButton = document.getElementById('closeBankModal'); 
+            const modalBankQRElement = document.getElementById('modalBankQR');
+            const modalBankNameElement = document.getElementById('modalBankName');
+            const modalAccountHolderElement = document.getElementById('modalAccountHolder');
+            const modalAccountNumberElement = document.getElementById('modalAccountNumber');
+            const copyAccountNumberButton = document.getElementById('copyAccountNumberButton');
+            const copyAllBankInfoButton = document.getElementById('copyAllBankInfoButton'); 
+            const copyMessageElement = document.getElementById('copyMessage');
+            const transferMomoButton = document.getElementById('transferMomoButton');
+            const transferMBBankButton = document.getElementById('transferMBBankButton');
+
+            const socialQrModal = document.getElementById('socialQrModal');
+            const enlargedSocialQrImage = document.getElementById('enlargedSocialQrImage');
+            const closeSocialQrModalButton = document.getElementById('closeSocialQrModal');
+            
+            const mainAvatar = document.getElementById('mainAvatar');
+            const avatarModal = document.getElementById('avatarModal');
+            const enlargedAvatarImage = document.getElementById('enlargedAvatarImage');
+            const closeAvatarModalButton = document.getElementById('closeAvatarModal');
+            
+            const shareProfileButton = document.getElementById('shareProfileButton');
+            const bankItems = document.querySelectorAll('.bank-logo-container');
+            const socialQrImages = document.querySelectorAll('.qr-code-social');
+            const noContextMenuImages = document.querySelectorAll('.no-context-menu');
+
+            // --- Sound Effect Synthesis ---
+            let clickSound;
+            if (typeof Tone !== 'undefined') {
+                clickSound = new Tone.Synth({
+                    oscillator: { type: "sine" },
+                    envelope: { attack: 0.005, decay: 0.1, sustain: 0.01, release: 0.05 }
+                }).toDestination();
+            }
+            
+            function playClickSound() {
+                if (clickSound && Tone.context.state !== 'running') {
+                    Tone.start().catch(e => console.warn("Tone.js context not started:", e));
+                }
+                try {
+                    if(clickSound) clickSound.triggerAttackRelease("C5", "8n", Tone.now());
+                } catch (e) {
+                    console.warn("Error playing sound:", e);
+                }
+            }
+
+            // --- Theme Toggle ---
+            if (themeToggleButton && themeIcon) {
+                const savedTheme = localStorage.getItem('theme');
+                if (savedTheme === 'light') {
+                    body.classList.add('light-mode');
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                } else { 
+                    body.classList.remove('light-mode'); 
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                }
+
+                themeToggleButton.addEventListener('click', () => {
+                    playClickSound();
+                    body.classList.toggle('light-mode');
+                    if (body.classList.contains('light-mode')) {
+                        themeIcon.classList.remove('fa-sun');
+                        themeIcon.classList.add('fa-moon');
+                        localStorage.setItem('theme', 'light');
+                    } else {
+                        themeIcon.classList.remove('fa-moon');
+                        themeIcon.classList.add('fa-sun');
+                        localStorage.setItem('theme', 'dark');
+                    }
+                });
+            }
+
+            // --- Music Toggle ---
+            let isMusicPlaying = false;
+            let musicStatusTimeout;
+            const songList = [ 
+                "audio/nh.mp3" // <<<<----- CHỈ ĐỂ LẠI BÀI NÀY HOẶC THÊM CÁC BÀI KHÁC CỦA BẠN
+                // "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3",
+                // "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3",
+            ];
+
+            function showMusicStatus(text, duration = 3500) {
+                if (!musicStatusText) return;
+                musicStatusText.textContent = text;
+                musicStatusText.classList.add('visible');
+                clearTimeout(musicStatusTimeout); 
+                musicStatusTimeout = setTimeout(() => {
+                    musicStatusText.classList.remove('visible');
+                }, duration); 
+            }
+            
+            function initializeAndPlayMusic() { // Đổi tên hàm cho rõ ràng
+                if (!backgroundMusic || songList.length === 0) {
+                    showMusicStatus("Không có nhạc", 2000);
+                    if(musicIcon) {
+                        musicIcon.classList.remove('fa-pause', 'fa-music');
+                        musicIcon.classList.add('fa-play');
+                    }
+                    return;
+                }
+                const randomIndex = Math.floor(Math.random() * songList.length);
+                backgroundMusic.src = songList[randomIndex];
+                backgroundMusic.volume = 0.5; // <<<<----- THAY ĐỔI ÂM LƯỢNG LÊN 50%
+                
+                const playPromise = backgroundMusic.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(_ => {
+                        isMusicPlaying = true;
+                        if(musicIcon) {
+                            musicIcon.classList.remove('fa-play', 'fa-music-slash');
+                            musicIcon.classList.add('fa-pause');
+                        }
+                        showMusicStatus("Nhấn để tắt nhạc");
+                    }).catch(error => {
+                        console.warn("Autoplay prevented for music:", error);
+                        isMusicPlaying = false;
+                        if(musicIcon) {
+                            musicIcon.classList.remove('fa-pause', 'fa-music');
+                            musicIcon.classList.add('fa-play');
+                        }
+                        showMusicStatus("Nhấn để bật nhạc"); 
+                    });
+                }
+            }
+            
+            // Cố gắng phát nhạc ngay khi trang tải
+            initializeAndPlayMusic();
+
+
+            if(musicToggleButton) {
+                musicToggleButton.addEventListener('click', () => {
+                    playClickSound(); 
+                    if (!backgroundMusic || songList.length === 0) {
+                        showMusicStatus("Không có nhạc để phát", 3000);
+                        return;
+                    }
+
+                    if (isMusicPlaying) {
+                        backgroundMusic.pause();
+                        if(musicIcon) {
+                            musicIcon.classList.remove('fa-pause', 'fa-music');
+                            musicIcon.classList.add('fa-play');
+                        }
+                        showMusicStatus("Đã tắt. Nhấn để bật.");
+                    } else {
+                        // Nếu nhạc chưa có src hoặc muốn chọn lại bài ngẫu nhiên khi nhấn play
+                        if (!backgroundMusic.currentSrc || backgroundMusic.paused) { 
+                            const randomIndex = Math.floor(Math.random() * songList.length);
+                            backgroundMusic.src = songList[randomIndex];
+                            backgroundMusic.volume = 0.5; // Đảm bảo âm lượng đúng khi play lại
+                        }
+                        
+                        const playPromise = backgroundMusic.play();
+                         if (playPromise !== undefined) {
+                            playPromise.then(_ => {
+                                if(musicIcon) {
+                                    musicIcon.classList.remove('fa-play', 'fa-music-slash');
+                                    musicIcon.classList.add('fa-pause');
+                                }
+                                showMusicStatus("Nhấn để tắt nhạc");
+                            }).catch(error => {
+                                console.error("Error playing music:", error);
+                                // alert("Không thể phát nhạc. Vui lòng tương tác với trang và thử lại.");
+                                if(musicIcon) {
+                                    musicIcon.classList.remove('fa-pause', 'fa-music');
+                                    musicIcon.classList.add('fa-play');
+                                }
+                                showMusicStatus("Lỗi phát. Nhấn để thử.");
+                            });
+                        }
+                    }
+                    isMusicPlaying = !isMusicPlaying;
+                });
+            }
+            if (backgroundMusic) {
+                backgroundMusic.onended = function() { 
+                    initializeAndPlayMusic(); // Gọi hàm này để chọn bài mới và phát
+                };
+            }
+
+            // --- Falling Stars ---
+            const numberOfStars = 100; 
+            if(starContainer) {
+                for (let i = 0; i < numberOfStars; i++) {
+                    let star = document.createElement('div');
+                    star.classList.add('star');
+                    star.style.left = `${Math.random() * 100}%`; 
+                    const size = Math.random() * 2 + 0.5; 
+                    star.style.width = `${size}px`; star.style.height = `${size}px`;
+                    star.style.animationDuration = `${Math.random() * 6 + 7}s`; 
+                    star.style.animationDelay = `-${Math.random() * 7}s`; 
+                    star.style.animationName = 'fall, twinkle'; 
+                    star.style.animationTimingFunction = 'linear, ease-in-out';
+                    star.style.animationIterationCount = 'infinite, infinite';
+                    star.style.animationDirection = 'normal, alternate';
+                    starContainer.appendChild(star);
+                }
+            }
+            
+            function showToast(message = "Đã sao chép!") {
+                if (!toast) return;
+                toast.textContent = message;
+                toast.classList.remove('opacity-0');
+                setTimeout(() => {
+                    toast.classList.add('opacity-0');
+                }, 2000);
+            }
+            
+            const YOUR_MOMO_PHONE_OR_ID = "YOUR_MOMO_PHONE_HERE"; 
+            let currentSocialLinkForEnlargedQR = ''; 
+            let currentBankData = null; 
+
+            if(noContextMenuImages) {
+                noContextMenuImages.forEach(img => {
+                    img.addEventListener('contextmenu', function(event) { event.preventDefault(); });
+                    img.style.webkitTouchCallout = 'none'; 
+                    img.style.userSelect = 'none'; 
+                });
+            }
+            
+            function copyToClipboard(text, messageElementId, successMessage = "Đã sao chép!") {
+                const messageEl = document.getElementById(messageElementId);
+                const tempTextArea = document.createElement('textarea');
+                tempTextArea.value = text;
+                document.body.appendChild(tempTextArea);
+                tempTextArea.select();
+                try {
+                    document.execCommand('copy');
+                    if(messageEl) messageEl.textContent = successMessage;
+                    else showToast(successMessage); 
+                } catch (err) {
+                    const failMessage = 'Lỗi sao chép!';
+                    if(messageEl) messageEl.textContent = failMessage;
+                    else showToast(failMessage);
+                    console.error('Không thể sao chép: ', err);
+                }
+                document.body.removeChild(tempTextArea);
+                if(messageEl) {
+                    setTimeout(() => { messageEl.textContent = ''; }, 2000);
+                }
+            }
+
+            const bankData = {
+                bank1: { qrUrl: "images/momo.jpg", bankName: "Ví Điện Tử Momo", accountHolder: "PHAM ANH TUAN", accountNumber: "0384627353" },
+                bank2: { qrUrl: "images/mb.jpg", bankName: "MB Bank (Ngân hàng Quân Đội)", accountHolder: "PHAM ANH TUAN", accountNumber: "060797" }
+            };
+
+            if(bankItems) {
+                bankItems.forEach(item => {
+                    item.addEventListener('click', function () {
+                        playClickSound();
+                        const bankId = this.dataset.bank;
+                        currentBankData = bankData[bankId]; 
+
+                        if (currentBankData) {
+                            if(modalBankQRElement) modalBankQRElement.src = currentBankData.qrUrl;
+                            if(modalBankNameElement) modalBankNameElement.textContent = currentBankData.bankName;
+                            if(modalAccountHolderElement) modalAccountHolderElement.textContent = currentBankData.accountHolder;
+                            if(modalAccountNumberElement) modalAccountNumberElement.textContent = currentBankData.accountNumber;
+                            
+                            if (transferMBBankButton && transferMomoButton) {
+                                if (currentBankData.bankName && currentBankData.bankName.toLowerCase().includes("mb bank")) {
+                                    transferMBBankButton.classList.remove('hidden');
+                                    transferMomoButton.classList.add('hidden');
+                                } else { 
+                                    transferMomoButton.classList.remove('hidden');
+                                    transferMBBankButton.classList.add('hidden');
+                                }
+                            }
+                            if(bankModal) { bankModal.classList.remove('hidden', 'opacity-0', 'visibility-hidden'); bankModal.classList.add('open'); }
+                        }
+                    });
+                });
+            }
+
+            function closeBankModalFunc() {
+                if(bankModal) {
+                    bankModal.classList.add('opacity-0', 'visibility-hidden'); bankModal.classList.remove('open');
+                    setTimeout(() => { if (!bankModal.classList.contains('open')) { bankModal.classList.add('hidden'); } }, 300);
+                    if (copyMessageElement) copyMessageElement.textContent = '';
+                    currentBankData = null; 
+                }
+            }
+
+            if(closeBankModalButton) closeBankModalButton.addEventListener('click', () => { playClickSound(); closeBankModalFunc(); });
+            if(bankModal) bankModal.addEventListener('click', function (event) { if (event.target === bankModal) { closeBankModalFunc(); } });
+            
+            if(copyAccountNumberButton) {
+                copyAccountNumberButton.addEventListener('click', function() {
+                    playClickSound();
+                    if (modalAccountNumberElement) { copyToClipboard(modalAccountNumberElement.textContent, 'copyMessage', 'Đã sao chép STK!'); }
+                });
+            }
+            
+            if(copyAllBankInfoButton) {
+                copyAllBankInfoButton.addEventListener('click', function() {
+                    playClickSound();
+                    if (currentBankData) {
+                        const allInfo = `Ngân hàng: ${currentBankData.bankName}\nChủ tài khoản: ${currentBankData.accountHolder}\nSố tài khoản: ${currentBankData.accountNumber}`;
+                        copyToClipboard(allInfo, 'copyMessage', 'Đã sao chép tất cả TT!');
+                    }
+                });
+            }
+
+
+            if(modalBankQRElement) {
+                modalBankQRElement.addEventListener('click', function() {
+                    playClickSound();
+                     if (modalAccountNumberElement) { copyToClipboard(modalAccountNumberElement.textContent, 'copyMessage', 'Đã sao chép STK!'); }
+                });
+            }
+
+            if(transferMomoButton) {
+                transferMomoButton.addEventListener('click', function() {
+                    playClickSound();
+                    let momoTargetAccount = YOUR_MOMO_PHONE_OR_ID;
+                    if (currentBankData && currentBankData.bankName && currentBankData.bankName.toLowerCase().includes("momo") && currentBankData.accountNumber) {
+                        momoTargetAccount = currentBankData.accountNumber;
+                    }
+                    if (momoTargetAccount === "YOUR_MOMO_PHONE_HERE" || !momoTargetAccount) { alert("Vui lòng cấu hình SĐT/ID Momo."); return; }
+                    window.location.href = `momo://transfer?phone=${momoTargetAccount}`;
+                });
+            }
+
+            if(transferMBBankButton) {
+                transferMBBankButton.addEventListener('click', function() {
+                    playClickSound();
+                    if (currentBankData && currentBankData.accountNumber && currentBankData.bankName.toLowerCase().includes("mb bank")) {
+                        window.location.href = `mbbank://transfer_p2p?receiver_account_no=${currentBankData.accountNumber}`;
+                    } else { alert("Không tìm thấy thông tin tài khoản MB Bank."); }
+                });
+            }
+
+            if(socialQrImages) {
+                socialQrImages.forEach(img => {
+                    img.addEventListener('click', function(event) {
+                        playClickSound();
+                        event.stopPropagation(); 
+                        if(enlargedSocialQrImage) {
+                            enlargedSocialQrImage.src = this.src;
+                            currentSocialLinkForEnlargedQR = this.dataset.socialLink || this.closest('.social-item-container')?.querySelector('a.social-link')?.href || '';
+                        }
+                        if(socialQrModal) { socialQrModal.classList.remove('hidden', 'opacity-0', 'visibility-hidden'); socialQrModal.classList.add('open');}
+                    });
+                });
+            }
+            
+            if(enlargedSocialQrImage) {
+                enlargedSocialQrImage.addEventListener('click', function() {
+                    playClickSound();
+                    if (currentSocialLinkForEnlargedQR) { window.open(currentSocialLinkForEnlargedQR, '_blank'); }
+                });
+            }
+
+            function closeSocialQrModalFunc() {
+                if(socialQrModal) {
+                    socialQrModal.classList.add('opacity-0', 'visibility-hidden'); socialQrModal.classList.remove('open');
+                     setTimeout(() => { if (!socialQrModal.classList.contains('open')) { socialQrModal.classList.add('hidden'); } }, 300);
+                    currentSocialLinkForEnlargedQR = ''; 
+                }
+            }
+
+            if(closeSocialQrModalButton) closeSocialQrModalButton.addEventListener('click', () => { playClickSound(); closeSocialQrModalFunc(); });
+            if(socialQrModal) socialQrModal.addEventListener('click', function(event) { if (event.target === socialQrModal && event.target !== enlargedSocialQrImage) { closeSocialQrModalFunc(); } });
+
+            if(mainAvatar) {
+                mainAvatar.addEventListener('click', function() {
+                    playClickSound();
+                    if(enlargedAvatarImage) enlargedAvatarImage.src = this.src;
+                    if(avatarModal) { avatarModal.classList.remove('hidden', 'opacity-0', 'visibility-hidden'); avatarModal.classList.add('open'); }
+                });
+            }
+            
+            function closeAvatarModalFunc() {
+                if(avatarModal) {
+                    avatarModal.classList.add('opacity-0', 'visibility-hidden'); avatarModal.classList.remove('open');
+                     setTimeout(() => { if (!avatarModal.classList.contains('open')) { avatarModal.classList.add('hidden'); } }, 300);
+                }
+            }
+
+            if(closeAvatarModalButton) closeAvatarModalButton.addEventListener('click', () => { playClickSound(); closeAvatarModalFunc(); });
+            if(avatarModal) avatarModal.addEventListener('click', function(event) { if (event.target === avatarModal && event.target !== enlargedAvatarImage) { closeAvatarModalFunc(); }});
+        
+            if(shareProfileButton) {
+                shareProfileButton.addEventListener('click', async () => {
+                    playClickSound();
+                    const profileUrl = window.location.href;
+                    const profileTitle = document.title;
+                    const h1Element = document.querySelector('#hero-section h1'); 
+                    const profileUserText = h1Element ? h1Element.textContent : 'tôi';
+                    const profileText = `Xem trang profile của ${profileUserText}!`;
+
+                    if (navigator.share) { 
+                        try {
+                            await navigator.share({ title: profileTitle, text: profileText, url: profileUrl, });
+                            console.log('Profile shared successfully');
+                        } catch (error) {
+                            console.error('Error sharing profile:', error);
+                            copyToClipboard(profileUrl, null, 'Đã sao chép link profile!');
+                        }
+                    } else { 
+                        copyToClipboard(profileUrl, null, 'Đã sao chép link profile!');
+                    }
+                });
+            }
+        
+        });
+    </script>
+</body>
+</html>
